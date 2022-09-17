@@ -14,14 +14,14 @@ const routes = Router();
 // chamando as classes dos controllers
 const listUsers = new ListUserControllers()
 const findUser = new FindUserController()
+const createUser = new CreateUserController()
 const updateUser = new UpdateUserController()
 const deleteUser = new DeleteUserController()
-const createUser = new CreateUserController()
 
 
 // as routas
 routes.get('/users', listUsers.handle);
-routes.get('/users/:id', findUser.handle);
+routes.get('/users/:id/', findUser.handle);
 routes.post('/users', createUser.handle);
 routes.put('/users/:id', updateUser.handle);
 routes.delete('/users/:id', deleteUser.handle);
@@ -30,16 +30,8 @@ routes.get('/', (req, res) => {
   return res.json({ message: "Hello World!" });
 });
 
-routes.get('*', function(req, res){
+routes.all('*', function(req, res){
   res.send('what???');
 });
-routes.post('*', function(req, res){
-  res.send('what???');
-});
-routes.delete('*', function(req, res){
-  res.send('what???');
-});
-routes.put('*', function(req, res){
-  res.send('what???');
-});
+
 export { routes };
