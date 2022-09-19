@@ -1,6 +1,13 @@
 version: "3"
 
 services:
+  postgres-db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: senha123
+    ports:
+      - 5432:5432
+    restart: unless-stopped
   app:
     restart: always
     build: .
@@ -11,11 +18,3 @@ services:
     ports:
       - 3000:3000
     command: yarn dev
-
-  postgres-db:
-    image: postgres
-    environment:
-      POSTGRES_PASSWORD: senha123
-    ports:
-      - 5432:5432
-    restart: unless-stopped

@@ -4,10 +4,18 @@ import { prismaClient } from '../database/prismaClient';
 
 export class CreateUserController {
   async handle(request: Request, response: Response) {
-    const { name, senha } = request.body;
+    try {
+      const { name, senha } = request.body;
+  
+      if ( name.length === 0 && senha.length === 0 ) {
+        return response.status(404).json({ message: 'Nome e senha obrigatório'});
+      }
+  
+      const user = await prismaClient.user.create({ data: { name: name, senha: senha } });
 
-    const user = await prismaClient.user.create({ data: { name: name, senha: senha } });
-
-    return response.json(user);
+      return response.status(401).json(user);
+    } catch(e){
+      console.log(e);
+    }
   }
 }
