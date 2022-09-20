@@ -7,13 +7,16 @@ export class CreateUserController {
     try {
       const { name, senha } = request.body;
   
-      if ( name.length === 0 && senha.length === 0 ) {
+      if (!name) {
+        return response.status(404).json({ message: 'Nome e senha obrigatório'});
+      }
+      if (!senha) {
         return response.status(404).json({ message: 'Nome e senha obrigatório'});
       }
   
       const user = await prismaClient.user.create({ data: { name: name, senha: senha } });
 
-      return response.status(401).json(user);
+      return response.status(201).json(user);
     } catch(e){
       console.log(e);
     }
