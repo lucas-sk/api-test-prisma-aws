@@ -1,25 +1,23 @@
 import { Request, Response } from 'express'
 import { prismaClient } from '../database/prismaClient';
+import { checkNamePass } from '../utils/checkNamePass';
 
 export class UpdateUserController{
   async handle(request: Request, response: Response) {
     try {
       const { id } = request.params;
-      const { name, senha } = request.body;
+      const { name, password } = request.body;
           
-      if ( name.length === 0){
-        return response.status(404).json({ message: "O nome não pode ser vazio"})
-      }
-      if ( senha.length === 0){
-        return response.status(404).json({ message: "A senha não pode ser vazia"})
-      }
+      if(checkNamePass(name, password)){
+        return response.json({message: "name ou password não pode ser vazio"});
+      };
       const user = await prismaClient.user.update({
         where: {
           id: Number(id)
         },
         data: {
-          name: name,
-          senha: senha
+          name,
+          password
         }
       });
   

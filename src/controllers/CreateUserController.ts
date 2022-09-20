@@ -1,20 +1,18 @@
 import { Request, Response } from 'express';
 import { prismaClient } from '../database/prismaClient';
+import { checkNamePass } from '../utils/checkNamePass';
 
 
 export class CreateUserController {
   async handle(request: Request, response: Response) {
     try {
-      const { name, senha } = request.body;
+      const { name, password } = request.body;
   
-      if (!name) {
-        return response.status(404).json({ message: 'Nome e senha obrigatório'});
-      }
-      if (!senha) {
-        return response.status(404).json({ message: 'Nome e senha obrigatório'});
-      }
+      if(checkNamePass(name, password)){
+        return response.json({message: "name e password são obrigatórios"});
+      };
   
-      const user = await prismaClient.user.create({ data: { name: name, senha: senha } });
+      const user = await prismaClient.user.create({ data: { name, password } });
 
       return response.status(201).json(user);
     } catch(e){
