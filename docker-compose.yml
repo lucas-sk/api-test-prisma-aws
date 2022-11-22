@@ -8,13 +8,13 @@ services:
     ports:
       - 5432:5432
     restart: unless-stopped
-  app:
-    restart: always
-    build: .
-    volumes:
-      - .:/usr/app
-    depends_on:
-      - postgres-db
-    ports:
-      - 3000:3000
-    command: yarn dev
+  # app:
+  #   restart: always
+  #   build: .
+  #   volumes:
+  #     - .:/usr/app
+  #   depends_on:
+  #     - postgres-db
+  #   ports:
+  #     - 3000:3000
+  #   command: yarn dev
